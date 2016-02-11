@@ -1,0 +1,766 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Présentation SQL</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>SQL</h1>
+					<h6>sigle de</h6>
+					<h6>Structured Query Language</h6>
+					<h6>en français, langage de requête structurée</h6>
+<!--					<p>
+						<small>Created by <a href="http://hakim.se">Hakim El Hattab</a> / <a href="http://twitter.com/hakimel">@hakimel</a></small>
+					</p>-->
+				</section>
+
+				<section>
+					<h4>Définition</h4>
+					<p style="font-size: 28px;">
+						Le SQL est un langage informatique servant à exploiter des bases de données.</p>
+					<p style="font-size: 28px;">
+						La partie langage de manipulation des données de SQL permet de rechercher, d'ajouter,
+						de modifier ou de supprimer des données dans les bases de données, la partie langage de définition des données permet de créer et de modifier l'organisation des données
+						dans la base de données, la partie langage de contrôle de transaction permet de commencer et de terminer des transactions, et la partie langage de contrôle des données
+						permet d'autoriser ou d'interdire l'accès à certaines données à certaines personnes.
+					</p>
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+						<h4>UTILISATION</h4>
+						<p style="font-size: 28px;">Le langage SQL s'utilise principalement de trois manières :
+						<ul style="font-size: 28px;">
+							<li>un programme écrit dans un langage de programmation donné qui utilise l'interface de programmation du <strong style="color: red">SGBD</strong> pour lui transmettre des
+								instructions en langage SQL. Ces programmes utilisent des composants logiciels tels que <strong style="color: lightblue">ODBC</strong> ou <strong style="color: lightblue">JDBC</strong>.
+								Cette technique est utilisée par l'invite de commande qui permet à un administrateur d'effectuer des opérations sur les bases de données, opérations qu'il décrit en SQL.</li>
+							<li>technique dite embedded SQL : des instructions en langage SQL sont incorporées dans le code source d'un programme écrit dans un autre langage.</li>
+
+							<li>technique des procédures stockées : des fonctions écrites en langage SQL sont enregistrées dans la base de données en vue d'être exécutées par le <strong style="color: red">SGBD</strong>. Cette
+								technique est utilisée pour les triggers - procédures déclenchées automatiquement sur modification du contenu de la base de données.</li>
+						</ul>
+<!--						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>-->
+					</section>
+
+					<section>
+						<h4>Syntaxe générale</h4>
+						<p style="font-size: 24px;">Les instructions SQL s'écrivent d'une manière qui ressemble à celle de phrases ordinaires en anglais. Cette ressemblance voulue vise à
+							faciliter l'apprentissage et la lecture. On classe les ordres suivant 4 domaines : <strong style="color: lightblue">LDD, LMD, LCD, LCT.</strong>
+						</p>
+						<p style="font-size: 24px;">
+							Les instructions de manipulation du contenu de la base de données commencent par les mots clés <strong style="color: green">SELECT, UPDATE, INSERT</strong> ou <strong
+							style="color: green">DELETE</strong> qui correspondent respectivement aux opérations de recherche de contenu, modification, ajout et suppression. Divers mots clés tels
+							que <strong style="color: green">FROM, JOIN</strong> et <strong style="color: green">GROUP</strong> permettent d'indiquer les opérations d'algèbre relationnelle à effectuer
+							en vue d'obtenir le contenu à manipuler.
+						</p>
+						<p style="font-size: 24px;">
+							Les instructions de manipulation des métadonnées - description de la structure, l'organisation et les caractéristiques de la base de données - commencent avec les mots
+							clés <strong style="color: green">CREATE, ALTER</strong> ou <strong style="color: green">DROP</strong> qui correspondent aux opérations d'ajouter, modifier ou supprimer
+							une métadonnée. Ces mots clés sont immédiatement suivis du type de métadonnée à manipuler - <strong style="color: green">TABLE, VIEW, INDEX</strong>, ...
+						</p>
+						<p style="font-size: 24px;">
+							Les mots clés <strong style="color: green">GRANT</strong> et <strong style="color: green">REVOKE</strong> permettent d'autoriser des opérations à certaines personnes,
+							d'ajouter ou de supprimer des autorisations. Tandis que les mots clés <strong style="color: green">COMMIT</strong> et <strong style="color: green">ROLLBACK</strong> permettent
+							de confirmer ou annuler l'exécution de transactions.
+						</p>
+					</section>
+					<section>
+						<p style="font-size: 24px;">Le langage de définition de données (<strong style="color: lightblue">LDD</strong>) est un langage orienté au niveau de la structure de la base de données.
+							C'est-à-dire que les commandes manipulent les structures de données et non les données elles-mêmes.
+							Tout d'abord, on peut définir le domaine des données (ensemble des valeurs que peut prendre une donnée : nombre, chaîne de caractères, date, booléen). Ensuite, on
+							regroupe des données ayant un lien conceptuel au sein d'une même entité. Puis on peut définir les liens entre plusieurs entités de nature différente. Enfin, on peut
+							ajouter des contraintes de valeur sur les données.
+						</p>
+						<p style="font-size: 24px; text-align:left;">Ordres SQL :</p>
+						<ul style="font-size: 24px; float:left;">
+							<li><em style="color: green">CREATE</em> : création de la structure</li>
+							<li><em style="color: green">ALTER</em> : modification de la structure</li>
+							<li><em style="color: green">DROP</em> : suppression des données et de la structure</li>
+							<li><em style="color: green">RENAME</em> : renommage, qui peuvent porter sur les objets de type suivants :</li>
+						</br>
+							<li><em style="color: green">TABLE</em> : table</li>
+							<li><em style="color: green">INDEX</em> : index</li>
+							<li><em style="color: green">VIEW</em> : table virtuelle</li>
+							<li><em style="color: green">SEQUENCE</em> : compteur ou de suite de nombres</li>
+							<li><em style="color: green">SYNONYM</em> : synonyme</li>
+							<li><em style="color: green">USER</em> : utilisateur</li>
+						</ul>
+					</section>
+					<section>
+						<p style="font-size: 24px; text-align:left;">Exemples :</p>
+						<ul style="font-size: 24px; float:left;">
+							<li style="font-size: 20px;">Création d'une vue, à partir d'une table :</li>
+							<p style="font-size: 20px; text-align:left;">Les vues sont des tables virtuelles issues de l'assemblage d'autres tables en fonction de critères.
+								 Techniquement les vues sont créées à l'aide d'une requête SELECT. Elles ne stockent pas les données qu'elles contiennent mais conservent juste la requête permettant de les créer.</p>
+							<ol style="font-size: 22px; list-style: none;">
+								<li><strong style="color:green">CREATE VIEW</strong> IG1</li>
+								<li><strong style="color:green">AS SELECT</strong> Numero, Nom, Prenom, age</li>
+								<li><strong style="color:green">FROM</strong> eleve</li>
+							</ol>
+							</br>
+							<li style="font-size: 20px;">Modification d'une table, avec ajout d'une colonne de type entier, pas obligatoirement renseignée :</li>
+							<ol style="font-size: 22px; list-style: none;">
+								<li><strong style="color:green">ALTER TABLE</strong> table1<strong style="color:green"> ADD COLUMN</strong> colonne5 <strong style="color:green">INTEGER NULL;</strong></li>
+							</ol>
+							</br>
+							<li style="font-size: 20px;">Suppression d'un objet :</li>
+							<ol style="font-size: 22px; list-style: none;">
+								<li><strong style="color:green">DROP VIEW</strong> nom_vue;</li>
+							</ol>
+							</br>
+							<li style="font-size: 20px;">Renommage d'un objet :</li>
+							<ol style="font-size: 22px; list-style: none;">
+								<li><strong style="color:green">RENAME VIEW</strong> nom_vue <strong style="color:green">TO</strong> nouveau_nom;</li>
+							</ol>
+						</ul>
+				</section>
+
+				<section>
+					<h4>Typage des champs pour la création d'une table</h4>
+					<p style="font-size: 24px;">Lors de la création d'une table, il faut en particulier décider du type des champs, qui sera approprié aux données et à leur manipulation.
+						Si par exemple, on décide de stocker des données définissant des individus dans une base de données, on pourra définir les données de l'entité individu comme suit
+						dans une table 'individu', comportant les champs :
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li>id : entier</li>
+						<li>Numéro_de_sécurité_sociale : chaîne de caractères</li>
+						<li>Nom : chaîne de caractères</li>
+						<li>Prénom : chaîne de caractères</li>
+						<li>Date de naissance : date. La date de naissance doit être forcément antérieure à la date du jour</li></br>
+					</ul>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Maintenant, considérons l'entité voiture définie comme suit, modélisée par la table 'voiture', comportant les champs :
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li>Id_proprietaire : entier</li>
+						<li>Marque : chaîne de caractères</li>
+						<li>Modèle : chaîne de caractères</li>
+						<li>Centralisation : booléen</li>
+					</ul>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						On peut maintenant considérer que les tables sont reliées à travers ces ID de propriétaires. Mais mysql ne fait pas la relation entre les deux tables.
+						Il va falloir lui expliquer cette relation dans une requête SQL : on va faire ce qu'on appelle une jointure entre les deux tables.
+						Il existe plusieurs types de jointures, qui nous permettent de choisir exactement les données que l'on veut récupérer. Deux des plus importantes sont :
+					</p></br>
+					<ul style="font-size: 24px; float:left;">
+						<li>les jointures internes : elles ne sélectionnent que les données qui ont une correspondance entre les deux tables.</li></br>
+						<li>les jointures externes : elles sélectionnent toutes les données, même si certaines n'ont pas de correspondance dans l'autre table.</br>
+					</ul>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Par exemple, si une personne dans la table individu ne possede aucune voiture, elle n'apparaitra pas dans les résultats de la requête. La jointure interne
+						force les données d'une table à avoir une correspondance dans l'autre. Par contre avec la jointure externe, on récupère toutes les données de la table
+						individu, même s'il n'y a pas de correspondance dans l'autre table voiture.
+					</p>
+					<p style="font-size: 24px;">
+						On peut dire que la jointure interne est plus stricte et que la jointure externe est plus permissive.
+					</p>
+					<p style="font-size: 24px; float: left;">
+						Une jointure interne peut être effectuée de deux façons différentes :
+					</p></br>
+					<ul style="font-size: 24px; float:left;">
+						<li>à l'aide du mot-clé <strong style="color: green;">WHERE</strong> c'est l'ancienne syntaxe.</li></br>
+						<li>à l'aide du mot-clé <strong style="color: green;">JOIN</strong> : c'est la nouvelle syntaxe qu'il est recommandé d'utiliser.</br>
+					</ul>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Jointure interne avec WHERE (ancienne syntaxe) :
+					</p>
+					<p style="font-size: 24px;">
+						<strong style="color: green;">SELECT</strong> voiture.Marque, individu.Numéro_de_sécurité_sociale<strong style="color: green;"> FROM</strong> individu, voiture
+						<strong style="color: green;"> WHERE</strong> voiture.Id_proprietaire = individu.id;
+					</p>
+					<p style="font-size: 24px;">
+						On récupère bien la marque de la voiture ainsi que le numéro de sécurité sociale.
+					</p>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Jointure externe avec JOIN (nouvelle syntaxe) :
+					</p>
+					<p style="font-size: 24px;">
+						<strong style="color: green;">SELECT</strong> voiture.Marque, individu.Numéro_de_sécurité_sociale<strong style="color: green;"> FROM</strong> individu
+						<strong style="color: green;"> INNER JOIN</strong> voiture<strong style="color: green;"> ON</strong> voiture.Id_proprietaire = individu.id;
+					</p>
+					<p style="font-size: 24px;">
+						On récupère bien la marque de la voiture ainsi que le numéro de sécurité sociale.
+					</p>
+					<p style="font-size: 24px;">
+						Les jointures externes permettent de récupérer toutes les données, même celles qui n'ont pas de correspondance. On pourra ainsi obtenir une personne dans la liste
+						même s'il ne possède pas de voiture.
+					</p>
+					<p style="font-size: 24px;">
+						<strong style="color: green;">SELECT</strong> voiture.Marque, individu.Numéro_de_sécurité_sociale<strong style="color: green;"> FROM</strong> individu
+						<strong style="color: green;"> LEFT JOIN</strong> voiture<strong style="color: green;"> ON</strong> voiture.Id_proprietaire = individu.id;
+					</p>
+					<p style="font-size: 24px;">
+						individu est appelée la « table de gauche » et voiture la « table de droite ». Le <strong style="color: green;">LEFT JOIN</strong> demande à récupérer tout le contenu de la table de gauche, donc tous les individus,
+						même si ces derniers n'ont pas d'équivalence dans la table voiture.
+					</p>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						RIGHT JOIN : récupérer toute la table de droite :
+					</p>
+					<p style="font-size: 24px;">
+						Le RIGHT JOIN demande à récupérer toutes les données de la table dite « de droite », même si celle-ci n'a pas d'équivalent dans l'autre table.
+					</p>
+					<p style="font-size: 24px;">
+						<strong style="color: green;">SELECT</strong> voiture.Marque, individu.Numéro_de_sécurité_sociale<strong style="color: green;"> FROM</strong> individu
+						<strong style="color: green;"> RIGHT JOIN</strong> voiture<strong style="color: green;"> ON</strong> voiture.Id_proprietaire = individu.id;
+					</p>
+					<p style="font-size: 24px;">
+						La table de droite étant voiture, on récupère donc toutes les voitures, même celles qui n'ont pas de propriétaire associé (individus).
+					</p>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Le langage de manipulation de données (<strong style="color: lightblue;">LMD</strong>) est un sous ensemble constitué des commandes logiques opérant la
+						manipulation des données (lectures et écritures) dans une base de données, par exemple une base de données relationnelle (<strong style="color: red;">SGBDR)</strong>.
+					</p>
+					<p style="font-size: 24px; float: left;">
+						Dans le langage SQL ce sont par exemple les commandes  : <strong style="color: green;">SELECT, INSERT, DELETE, UPDATE</strong> et <strong style="color: green;">MERGE</strong>.
+						Parmi ces instructions, celles qui modifient les données doivent être validées à l'issue d'une transaction pour être prises en compte.
+					</p>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Exemples :
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li>Insertion d'une ligne dans la table acteurs :</li>
+					</ul>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green;">INSERT INTO</strong> acteurs (Nom,Prénom)<strong style="color: green;"> VALUES</strong> (<span style="color: red;">'Dupont'</span>,<span style="color: red;">'Kevin'</span>);
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li>Suppression des lignes répondant à une condition :</li>
+					</ul>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green;">DELETE FROM</strong> Store_Information<strong style="color: green;"> WHERE</strong> Store_Town = <span style="color: red;">'Paris';</span>
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li>Mise à jour des lignes répondant à une condition :</li>
+					</ul>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green;">UPDATE</strong> Eleves<strong style="color: green;"> SET</strong> Prénom = "Henry"<strong style="color: green;"> WHERE</strong> Nom = "Leroy";
+					</p>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Le Langage de contrôle de données (ou <strong style="color: lightblue;">LCD</strong>) est un langage de programmation et un sous-ensemble de SQL pour contrôler l'accès aux données d'une base de données.
+						On trouve typiquement, les commandes suivantes :
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li><strong style="color: green;">GRANT</strong> : autorise certains utilisateurs à effectuer une certaine opération</li>
+						<li><strong style="color: green;">DENY</strong> : empêche certains utilisateurs à effectuer une certaine opération</li>
+						<li><strong style="color: green;">REVOKE</strong> : annule une commande de contrôle précédente</li>
+						<li><strong style="color: green;">COMMIT</strong> : valide une transaction en cours dans la base</li>
+						<li><strong style="color: green;">ROLLBACK</strong> : annule une transaction en cours</li>
+						<li><strong style="color: green;">LOCK</strong> : pour poser un verrou sur un objet</li>
+					</ul>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Exemples :
+					</p>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green;">GRANT UPDATE</strong> (Nom,Prénom)<strong style="color: green;"> ON</strong> Controleurs<strong style="color: green;"> TO</strong> Pierre,Paul
+						<strong style="color: green;"> WITH GRANT OPTION</strong>;
+					</p>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green;">DENY SELECT ON</strong> Person.Adress;
+					</p>
+					<p style="font-size: 24px; float: left; width: 100%;">
+						<strong style="color: green; float: left;">REVOKE DELETE ON</strong> <span style="float: left; margin-left: 5px;"> individu</span>
+						<strong style="color: green; float: left; margin-left: 5px;"> FROM</strong> <span style="float: left;  margin-left: 5px;">Paul;</span>
+					</p>
+					<p style="font-size: 24px; float: left; width: 100%;">
+						<strong style="color: green; float: left; padding-right: 6px;">START TRANSACTION</strong>
+						<span style="float: left;">;</span>
+					</p>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green;">UPDATE</strong> table2<strong style="color: green;"> SET</strong> summary=<span style="color: red;">'Excellente page'</span><strong style="color: green;"> WHERE</strong> type=1;
+					</p>
+					<p style="font-size: 24px; float: left; width: 100%;">
+						<strong style="color: green; float: left;">COMMIT</strong>
+						<span style="float: left;">;</span>
+					</p>
+					<p style="font-size: 24px; float: left; width: 100%;">
+						<strong style="color: green; float: left; padding-right: 6px;">LOCK TABLES</strong><span style="float: left;  padding-right: 6px;">table</span><strong style="color: green;  float: left; ">WRITE</strong>
+						<span style="float: left;">;</span>
+					</p>
+				</section>
+				<section>
+					<p style="font-size: 24px;">
+						Le langage de contrôle des transactions (<strong style="color: lightblue;">LCT</strong>) est utilisé pour le contrôle transactionnel dans une base de données, c’est-à-dire les caractéristiques des transactions,
+						la validation et l’annulation des modifications.
+					</p>
+					<p style="font-size: 24px;">
+						Exemples d'instructions du LCT : <strong style="color: green;">COMMIT, SAVEPOINT, ROLLBACK, SET TRANSACTION</strong>
+					</p></br>
+					<ul style="font-size: 24px; float:left;">
+						<li>Définition du niveau d'isolement le moins restrictif et mode d'accès d'une transaction :</li>
+					</ul>
+					<p style="font-size: 24px;  float: left;">
+						<strong style="color: green;">SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED</strong>;
+					</p>
+					<ul style="font-size: 24px; float:left;">
+						<li><strong style="color: green;">SAVEPOINT</strong> Cette instruction permet de placer une étiquette savepoint dans le corps du code. Elle permet au traitement d'annuler, avec l'instruction ROLLBACK,
+							les modifications effectuées à partir de cette étiquette :</li>
+					</ul>
+					<p style="font-size: 24px; float: left;">
+						<strong style="color: green; float: left;">SAVEPOINT</strong> mise_a_jour;</br>
+						<strong style="color: green; float: left;">UPDATE</strong> blabla...;</br>
+						<strong style="color: green; float: left;">ROLLBACK TO SAVEPOINT </strong><span style="margin-left: 5px;"> mise_a_jour</span>;
+					</p>
+				</section>
+				<section>
+					<p>
+						VOILÀ C'EST TERMINÉ BANDE DE BONOBOS !!
+					</p>
+					<img src="https://media.giphy.com/media/vkwAeqMEUSaoU/giphy.gif" />
+				</section>
+<!--				<section data-markdown>
+					<script type="text/template">
+						## Markdown support
+
+						Write content using inline or external Markdown.
+						Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+
+						```
+						<section data-markdown>
+						  ## Markdown support
+
+						  Write content using inline or external Markdown.
+						  Instructions and more info available in the [readme](https://github.com/hakimel/reveal.js#markdown).
+						</section>
+						```
+					</script>
+				</section>
+
+				<section>
+					<section id="fragments">
+						<h2>Fragments</h2>
+						<p>Hit the next arrow...</p>
+						<p class="fragment">... to step through ...</p>
+						<p><span class="fragment">... a</span> <span class="fragment">fragmented</span> <span class="fragment">slide.</span></p>
+
+						<aside class="notes">
+							This slide has fragments which are also stepped through in the notes window.
+						</aside>
+					</section>
+					<section>
+						<h2>Fragment Styles</h2>
+						<p>There's different types of fragments, like:</p>
+						<p class="fragment grow">grow</p>
+						<p class="fragment shrink">shrink</p>
+						<p class="fragment fade-out">fade-out</p>
+						<p class="fragment current-visible">current-visible</p>
+						<p class="fragment highlight-red">highlight-red</p>
+						<p class="fragment highlight-blue">highlight-blue</p>
+					</section>
+				</section>
+
+				<section>
+					<h2>Squelette d'une page HTML5</h2>
+					<!--<img width="358" height="318" data-src="img/page_html.jpg">
+					<p>&lt;!DOCTYPE html&gt;
+					&lt;!--indique le type de document--&gt;</p>
+					<p>&lt;html&gt;
+					&lt;!--début du code html--&gt;</p>
+					<p>&lt;head&gt;
+					&lt;!--début de l'en-tête--&gt;</p>
+					<p>&lt;meta charset=&quot;UTF-8&quot;/&gt;
+					&lt;!--encodage des caractères--&gt;</p>
+					<p>&lt;title&gt;Document sans nom&lt;/title&gt;
+					&lt;!--titre--&gt;</p>
+					<p>&lt;/head&gt;
+					&lt;!--fin de l'en-tête--&gt;</p>
+					<p>&lt;body&gt;
+					&lt;!--corps de la page--&gt;</p>
+					<p>&lt;/body&gt;</p>
+					<p>&lt;/html&gt;
+					&lt;!--fin du code html--&gt;</p>
+				</section>
+				<section>
+					<h2>Mise en page avec les feuilles de style CSS(Cascading style sheets)</h2>
+					<p>Les règles de style CSS permettent de personnaliser les couleurs, de définir les polices de caractères, de positionner les éléments les uns par rapport aux autres, etc.
+					Bref en html seulement c'est moche, mais avec le css c'est plus joli !</p>
+				</section>
+				<section>
+					<h2>Insertion des styles dans les balises HTML</h2>
+						<p>On peut incorporer les styles CSS directement dans les balises HTML avec l'attribut style.
+						Cette technique est simple mais peu pratique.</p>
+				</section>
+				<section style="background-color: green;">
+						<p>Example: </p>
+						<p>&lt;body style=&quot;background-color: green; font-family: 'TimesNewRoman';&quot;&gt;</p>
+						&lt;h2 style=&quot;text-align: center; color:brown;&quot;&gt;<p style="color:brown;">Les feuilles de style CSS&lt;/h2&gt;</p>
+						&lt;p style=&quot;margin-left: 100px;&quot;&gt;Bonjour à tous !
+						Ceci est un exemple d'utilisation des feuilles de style&lt;span style=&quot;color: blue; font-weight: bold;&quot;&gt;
+						<p style="color: blue; font-weight: bold;">CSS</p>
+						&lt;/span&gt;(Cascading Style Sheets).&lt;/p&gt;</br>
+						&lt;/body&gt;
+				</section>
+				<section>
+					<h2>Lier des styles à partir d'une feuille séparée</h2>
+					<p>C'est la technique la plus efficace, celle que l'on rencontre dans la plupart des sites Web.</p>
+				</section>
+				<section style="font-size:36px; background-color: green;">
+					&lt;!DOCTYPE html&gt;</br>
+					<span>&lt;html&gt;</span></br>
+					&lt;head&gt;</br>
+					<span>&lt;meta charset=&quot;UTF-8&quot;&gt;</span></br>
+					&lt;title&gt;Une page web en HTML5&lt;/title&gt;</br>
+					<span>&lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;</span></br>
+					<span>&lt;/head&gt;</span></br>
+					&lt;body&gt;</br>
+					<span style="color:brown;">&lt;h2&gt;Les feuilles de style CSS&lt;/h2&gt;</span></br>
+					&lt;p&gt;Bonjour à tous !
+					Ceci est un exemple d'utilisation des feuilles de style&lt;span class=&quot;important&quot;&gt;
+					<span style="color: blue; font-weight: bold;">CSS</span>
+					&lt;/span&gt;(Cascading Style Sheets).&lt;/p&gt;</br>
+					&lt;/body&gt;</br>
+					<span>&lt;/html&gt;</span>
+				</section>
+				<section>
+					<p>L'élément &lt;link> fait le lien avec la feuille de style CSS (ici le fichier externe style.css)</p>
+					<p>L'attribut class de l'élément &lt;span> permet d'utiliser des règles CSS personnalisées.
+					La feuille de style se trouve dans le fichier style.css</p>
+				</section>
+				<section style="margin-top: -65px; font-size:36px;">
+					<p>La syntaxe du langage CSS est très simple à comprendre :</p>
+					&lt;!--selecteur de type-->
+	<!--				 body {</br>
+					<span>background-color: green;</span></br>
+					<span>font-family: 'TimesNewRoman';</span></br>
+					<span>}</span></br>
+
+					h2 {</br>
+					<span>text-align: center;</span></br>
+					<span>color: brown;</span></br>
+					<span>}</span></br>
+
+					p {</br>
+					<span>margin-left: 100px;</span></br>
+					<span>}</span></br>
+
+					/*le selecteur "." ==> classe */
+					.important {</br>
+						<span>color: blue;<span></br>
+						<span>font-weight: bold;</span></br>
+					}
+				</section>
+				<section>
+					<p>C'EST FINI !!! MAINTENANT C'EST À VOUS DE JOUER !!</p>
+				</section>
+<!--				<section id="transitions">
+					<h2>Squelette d'une page HTML5</h2>
+					<img width="358" height="318" data-src="img/page_html.jpg">
+					<p>
+						You can select from different transitions, like: <br>
+						<a href="?transition=none#/transitions">None</a> -
+						<a href="?transition=fade#/transitions">Fade</a> -
+						<a href="?transition=slide#/transitions">Slide</a> -
+						<a href="?transition=convex#/transitions">Convex</a> -
+						<a href="?transition=concave#/transitions">Concave</a> -
+						<a href="?transition=zoom#/transitions">Zoom</a>-
+					</p>
+				</section>
+
+				<section id="themes">
+					<h2>Themes</h2>
+					<p>
+						reveal.js comes with a few themes built in: <br>-->
+						<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
+<!--						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a> <br>
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
+						<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
+					</p>
+				</section>
+
+				<section>
+					<section data-background="#dddddd">
+						<h2>Slide Backgrounds</h2>
+						<p>
+							Set <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
+						</p>
+						<a href="#" class="navigate-down">
+							<img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
+						</a>
+					</section>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
+						<h2>Image Backgrounds</h2>
+						<pre><code class="hljs">&lt;section data-background="image.png"&gt;</code></pre>
+					</section>
+					<section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
+						<h2>Tiled Backgrounds</h2>
+						<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code></pre>
+					</section>
+					<section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
+						<div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
+							<h2>Video Backgrounds</h2>
+							<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code></pre>
+						</div>
+					</section>
+					<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
+						<h2>... and GIFs!</h2>
+					</section>
+				</section>
+
+				<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
+					<p>
+						Different background transitions are available via the backgroundTransition option. This one's called "zoom".
+					</p>
+					<pre><code class="hljs">Reveal.configure({ backgroundTransition: 'zoom' })</code></pre>
+				</section>
+
+				<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
+					<h2>Background Transitions</h2>
+					<p>
+						You can override background transitions per-slide.
+					</p>
+					<pre><code class="hljs" style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code></pre>
+				</section>
+
+				<section>
+					<h2>Pretty Code</h2>
+					<pre><code class="hljs" data-trim contenteditable>
+function linkify( selector ) {
+  if( supports3DTransforms ) {
+
+    var nodes = document.querySelectorAll( selector );
+
+    for( var i = 0, len = nodes.length; i &lt; len; i++ ) {
+      var node = nodes[i];
+
+      if( !node.className ) {
+        node.className += ' roll';
+      }
+    }
+  }
+}
+					</code></pre>
+					<p>Code syntax highlighting courtesy of <a href="http://softwaremaniacs.org/soft/highlight/en/description/">highlight.js</a>.</p>
+				</section>
+
+				<section>
+					<h2>Marvelous List</h2>
+					<ul>
+						<li>No order here</li>
+						<li>Or here</li>
+						<li>Or here</li>
+						<li>Or here</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Fantastic Ordered List</h2>
+					<ol>
+						<li>One is smaller than...</li>
+						<li>Two is smaller than...</li>
+						<li>Three!</li>
+					</ol>
+				</section>
+
+				<section>
+					<h2>Tabular Tables</h2>
+					<table>
+						<thead>
+							<tr>
+								<th>Item</th>
+								<th>Value</th>
+								<th>Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Apples</td>
+								<td>$1</td>
+								<td>7</td>
+							</tr>
+							<tr>
+								<td>Lemonade</td>
+								<td>$2</td>
+								<td>18</td>
+							</tr>
+							<tr>
+								<td>Bread</td>
+								<td>$3</td>
+								<td>2</td>
+							</tr>
+						</tbody>
+					</table>
+				</section>
+
+				<section>
+					<h2>Clever Quotes</h2>
+					<p>
+						These guys come in two forms, inline: <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+						&ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
+					</p>
+					<blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
+						&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would
+						reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;
+					</blockquote>
+				</section>
+
+				<section>
+					<h2>Intergalactic Interconnections</h2>
+					<p>
+						You can link between slides internally,
+						<a href="#/2/3">like this</a>.
+					</p>
+				</section>
+
+				<section>
+					<h2>Speaker View</h2>
+					<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
+					<p>Press the <em>S</em> key to try it out.</p>
+
+					<aside class="notes">
+						Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
+					</aside>
+				</section>
+
+				<section>
+					<h2>Export to PDF</h2>
+					<p>Presentations can be <a href="https://github.com/hakimel/reveal.js#pdf-export">exported to PDF</a>, here's an example:</p>
+					<iframe src="https://www.slideshare.net/slideshow/embed_code/42840540" width="445" height="355" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" style="border:3px solid #666; margin-bottom:5px; max-width: 100%;" allowfullscreen> </iframe>
+				</section>-
+
+				<section>
+					<h2>Global State</h2>
+					<p>
+						Set <code>data-state="something"</code> on a slide and <code>"something"</code>
+						will be added as a class to the document element when the slide is open. This lets you
+						apply broader style changes, like switching the page background.
+					</p>
+				</section>
+
+				<section data-state="customevent">
+					<h2>State Events</h2>
+					<p>
+						Additionally custom events can be triggered on a per slide basis by binding to the <code>data-state</code> name.
+					</p>
+					<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+Reveal.addEventListener( 'customevent', function() {
+	console.log( '"customevent" has fired' );
+} );
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Take a Moment</h2>
+					<p>
+						Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
+					</p>
+				</section>
+
+				<section>
+					<h2>Much more</h2>
+					<ul>
+						<li>Right-to-left support</li>
+						<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
+						<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
+					</ul>
+				</section>
+
+				<section style="text-align: left;">
+					<h1>THE END</h1>
+					<p>
+						- <a href="http://slides.com">Try the online editor</a> <br>
+						- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
+					</p>
+				</section>-->
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
